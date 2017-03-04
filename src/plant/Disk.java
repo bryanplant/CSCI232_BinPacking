@@ -28,6 +28,10 @@ public class Disk implements Comparable<Disk>{
 		return spaceLeft;
 	}
 
+	public int getID(){
+		return id;
+	}
+
 	@Override
 	public String toString(){
 		String out = "	";

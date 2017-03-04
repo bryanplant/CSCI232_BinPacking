@@ -10,6 +10,7 @@ public class WorstFit {
 	public static void main(String[] args){
 		MaxPQ<Disk> pq = new MaxPQ<Disk>();
 		int diskNum = 0;
+		int totalSpace = 0;
 
 		pq.insert(new Disk(0));
 
@@ -21,11 +22,22 @@ public class WorstFit {
 			}catch(NoSuchElementException e){
 				break;
 			}
+
 			if(pq.max().getSpaceLeft() - file < 0){
-				pq.insert(new Disk(++diskNum));
+				Disk disk = new Disk(++diskNum);
+				disk.add(file);
+				pq.insert(disk);
 			}
-			pq.max().add(file);
+			else{
+				Disk disk = pq.delMax();
+				disk.add(file);
+				pq.insert(disk);
+			}
+			totalSpace += file;
 		}
+
+		System.out.println("file sizes sum = " + (double)totalSpace/1000000 + " GB");
+		System.out.println("Disks used     = " + (diskNum+1));
 
 		while(!pq.isEmpty()){
 			System.out.println(pq.delMax().toString());
